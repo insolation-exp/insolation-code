@@ -1,0 +1,56 @@
+
+Hi Doog, Rich, and Dave,
+
+Tom Baraniak has created an outdoor thermal insulation experiment (for
+Prof. Melissa Eblen-Zayas's ENTS-262 class) with thermal sensors that
+feed into one of these Analog Data Acquisition Modules:
+
+    http://www.controlbyweb.com/analog/
+
+The DAQ module makes the data available via a mini-web server over an
+ethernet port.
+
+Tom plans to site the experiment near the Telescope Pedestals located
+outside and to the East of Goodsell 104 because these pedestals
+already have power and ethernet ports.
+
+Melissa wants the experment to be operations by the "middle of next
+week" (1/30).
+
+
+Port activation (DOOG):
+
+    The Ethernet ports on Telescope Pedestals 2, 3, 4 are all inactive
+    or possibly non-functional.  I tried plugging a laptop into them a
+    few hours ago and got no signal.  Since these ports are exposed the
+    elements 24/365, I wouldn't be surprised to disover that some of
+    them just don't work anymore.
+
+    Doog, could you activate and test Telescope Pedestals 2, 3, and 4?
+
+    BTW, Cindy Blaha, who uses these ethernet ports the most, says
+    they can be flaky in the winter.  Tom says he'd be happy to
+    discuss the topic more robust weatherproof ethernet access ports
+    with you as a mid to longterm solution.
+
+
+Assigning a hostname and IP address:
+
+    Rich and Dave,
+
+    I'm happy to make a DHCP assignment myself but I need to know what
+    hostname I should give it.  Is there naming convention for such
+    devices?
+    
+    FWIW, the DAQ Modules Macaddr is: 00:0C:C8:02:81:F1
+
+
+Security implications:
+
+    Rich and Dave,
+
+    I'm not sure what the security implications are for having this
+    thing sit on our network.  I do know that Tom has changed the
+    default admin pw for the device.
+
+

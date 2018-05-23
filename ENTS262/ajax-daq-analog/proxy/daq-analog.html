@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "xmlDoc://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>DAQ Analog Module AJAX Example</title>
+
+    <script type="text/javascript">
+        // name of the proxy script
+        var proxyName = "proxy.php";
+        // specify the automatic refresh rate here (in seconds)
+        var refreshTimeSec = 3;
+        
+        var xmlDoc = false;
+        var timeOutID = 0;
+        
+        // create the xml document resource
+        if(navigator.appName == "Microsoft Internet Explorer") {
+             xmlDoc = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        else {
+             xmlDoc = new XMLHttpRequest();
+        }
+        
+        // this function requests the file state.xml from the device
+        function getState() {
+             
+             var date = new Date();
+             var timestamp = date.getTime();
+             
+             xmlDoc.open("GET", proxyName+"?path=state.xml&time="+timestamp, false);
+             xmlDoc.send(null);
+             if(xmlDoc.readyState == 4) {
+                  UpdateValues();
+             }
+                          
+             timeOutID = setTimeout('getState()', refreshTimeSec*1000);
+        }
+        
+        // this function sends a request to the device to change the relay state
+        function setState(relayNumber, state) {
+             var request;
+             if(relayNumber != 0)
+                  request = "state.xml?relay" + relayNumber + "State=" + state;
+             else
+                  request = "state.xml?relayState=" + state;           
+             
+             var date = new Date();
+             var timestamp = date.getTime();
+             
+             xmlDoc.open("GET", proxyName+"?path="+request+"&time="+timestamp, false);
+             
+             xmlDoc.send(null);
+             if(xmlDoc.readyState == 4) {
+                  window.clearTimeout(timeOutID);             
+                  UpdateValues();
+                  timeOutID = setTimeout('getState()', refreshTimeSec*1000);
+             }
+        }
+        
+        // this function converts a 0/1 to off/on for the relays
+        function DisplayRelayText(OnOff)
+        {
+             switch(OnOff)
+             {
+                  case "0" : return("Relay OFF"); break;
+                  case "1" : return("Relay ON"); break;
+                  default : return("Undefined State"); break;
+             }
+        }
+        
+        // this funciton converts a 0/1 to off/on for the inputs
+        function DisplayInputText(OnOff)
+        {
+             switch(OnOff)
+             {
+                  case "0" : return("Input OFF"); break;
+                  case "1" : return("Input ON"); break;
+                  default: return("Undefined State"); break;
+             }
+        }
+        
+        function DisplayColor(State)
+        {
+            switch(State)
+            {
+                case "0" : return("#FF0066"); break;
+                case "1" : return("#00FF66"); break;
+                case "2" : return("#00FF66"); break;
+                default : return("#FF66FF"); break;
+            }
+        }
+        
+        // this function parses through the xml file and finds the value
+        // located between the specified tag
+        function findValue(tag)
+        {
+             var opentag = "<"+tag+">";
+             var closetag = "</"+tag+">";
+             
+             // find the opening tag first
+             index = xmlDoc.responseText.indexOf(opentag);
+             startindex = index + opentag.length;
+             endindex = xmlDoc.responseText.indexOf(closetag);
+             
+             return xmlDoc.responseText.slice(startindex, endindex);
+        }
+        
+        // this funciton updates the values in our table
+        // to match those of the device
+        function UpdateValues()
+        {          
+             // first get the units
+             var units = findValue('units');
+             
+             document.getElementById('input0state').innerHTML = findValue('input0state');
+             document.getElementById('input0state').bgColor = "#00FF66";
+             
+             document.getElementById('input1state').innerHTML = findValue('input1state');
+             document.getElementById('input1state').bgColor = "#00FF66";
+             
+             document.getElementById('input2state').innerHTML = findValue('input2state');
+             document.getElementById('input2state').bgColor = "#00FF66";
+             
+             document.getElementById('input3state').innerHTML = findValue('input3state');
+             document.getElementById('input3state').bgColor = "#00FF66";
+             
+             document.getElementById('input4state').innerHTML = findValue('input4state');
+             document.getElementById('input4state').bgColor = "#00FF66";
+             
+             document.getElementById('input5state').innerHTML = findValue('input5state');
+             document.getElementById('input5state').bgColor = "#00FF66";
+             
+             document.getElementById('input6state').innerHTML = findValue('input6state');
+             document.getElementById('input6state').bgColor = "#00FF66";
+             
+             document.getElementById('input7state').innerHTML = findValue('input7state');
+             document.getElementById('input7state').bgColor = "#00FF66";
+             
+             
+        }
+    
+    </script>
+
+</head>
+<body onload="getState();" bgcolor="DarkBlue">
+    <!-- This div centers the webpage. -->
+    <div align="center" style="border-style: none; padding: 0px; margin: 0px; height: auto;">
+    
+        <!-- This is the main table -->
+        <table border="1" cellpadding="4" 
+            
+            style="background-color: #3B5FA6; font-family: Verdana; font-size: large; color: #FFFFFF;" 
+            align="center">
+            <!-- Row one is the header -->
+            <tr>
+                <td colspan="3" bgcolor="#7799EE" style="color: #000000">
+                    <h2>DAQ Analog Module AJAX Example</h2>
+                </td>
+            </tr>
+            
+            <!-- Row two is the input 0 status -->
+            <tr>
+                <td align="center">
+                    Input 0
+                </td>
+                <td id="input0state" align="center">                
+                </td>
+            </tr>
+            
+            <!-- Row three is the input 1 status -->
+            <tr>
+                <td align="center">
+                    Input 1
+                </td>
+                <td id="input1state" align="center">                
+                </td>
+            </tr>
+            
+            <!-- Row four is the input 2 status -->
+            <tr>
+                <td align="center">
+                    Input 2
+                </td>
+                <td id="input2state" align="center">                
+                </td>
+            </tr>
+            
+            <!-- Row five is the input 3 status -->
+            <tr>
+                <td align="center">
+                    Input 3
+                </td>
+                <td id="input3state" align="center">                
+                </td>
+            </tr>
+            
+            <!-- Row six is the input 4 status -->
+            <tr>
+                <td align="center">
+                    Input 4
+                </td>
+                <td id="input4state" align="center">                
+                </td>
+            </tr>
+            
+            <!-- Row seven is the input 5 status -->
+            <tr>
+                <td align="center">
+                    Input 5
+                </td>
+                <td id="input5state" align="center">                
+                </td>
+            </tr>
+            
+            <!-- Row eight is the input 6 status -->
+            <tr>
+                <td align="center">
+                    Input 6
+                </td>
+                <td id="input6state" align="center">                
+                </td>
+            </tr>
+            
+            <!-- Row nine is the input 7 status -->
+            <tr>
+                <td align="center">
+                    Input 7
+                </td>
+                <td id="input7state" align="center">                
+                </td>
+            </tr>
+            
+        </table>
+    </div>
+</body>
+</html>

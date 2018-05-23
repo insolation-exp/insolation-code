@@ -1,0 +1,73 @@
+
+-----------------------------------------------------------------
+The Physical experiment
+-----------------------------------------------------------------
+
+The physical insolation experiment consists of 3 boxes on a bench
+located just east of Goodsell Obervatory.  Each box has a different
+R-value (insulation value), a lamp, and a thermostat.  One of the
+boxes has a window, the other two are closed.  The bench faces roughly
+south to maximize the sunlight entering the window.  Each box attempts
+to maintain a steady temperature of roughly 21.65C.
+
+Box 1 has R3 and no window
+Bow 2 has R0 and a window
+Box 3 has R5 and no window
+
+In addition, the experiment measures the outdoor temperature and the
+solar output in watts/meter squared.  Due the way the experiment is
+configured you will need to multiply the value in the data files by
+910 to get the actual value.  During the day it should be hundreds of
+watts depending on sunlight.
+
+-----------------------------------------------------------------
+Digest summary files: format/semantics
+-----------------------------------------------------------------
+
+The included digest summary files are created by polling the
+insolation experiment 1/s, starting 5 minutes before midnight and
+ending 5 minutes after the following midnight (a 24hr, 10 minute
+period).  The first and last data lines should be ignored.  They're
+there for debugging purposes.
+
+Each of digest-summary.csv file has this header line:
+
+"datetime, epochseconds, L1, L2, L3, C1, C2, C3, C4, Sun, eventdensity"
+
+Where:
+
+    'datetime' is the date and time at the end of the 15 minute interval.
+
+    'epochseconds' is the number of seconds since 1970-01-01 at the
+    end of the interval.
+ 
+    'L1', 'L2', 'L3' is the number of times the DAQ reported each
+    lamp was on for boxes 1, 2, and 3 respectively (max of 900).
+
+    'C1', 'C2', 'C3' are the averages of the temperatures reported by
+    the DAQ controller for boxes 1, 2, and 3 respectively.
+
+    'C4' is the average of the outside temperatures reported by the
+    DAQ controller.
+
+    'Sun' is the average outside insolation in (Watts/Meter^2)/910 for
+    the 15 minute period.
+
+    'eventdensity' is the ratio of actual logged events (lines in the
+     raw .csv file) in the interval over the total possible events,
+     assuming a rate of 1 event per second.  So if the interval is 15
+     minutes (900 seconds) and 900 events exist and were processed by
+     this script in that 15 minute interval, then the 'eventdensity'
+     would be '900/900'.  If only 450 events (lines in the raw .csv
+     file) were present for the interval, the eventdensity value would
+     be '450/900'.
+
+
+For each of the input lines, L1, L2, L3 is considered 'on' if the
+reported voltage in the input line (V1, V2, V3) is higher than the
+threshold voltage, currently set to 2.0v.
+
+Events (lines in the raw csv file) are summarized over 15 minute
+intervals starting at 0, 15, 30, 45, and 0 minutes on the clock.  This
+means the 1st and last summary lines could have very low
+'eventdensity' values and should be ignored.

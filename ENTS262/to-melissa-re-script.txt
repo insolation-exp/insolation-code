@@ -1,0 +1,58 @@
+Hi Melissa and Tom,
+
+Attached is a perl script that will poll the analog daq module for
+data and emit a csv formatted line to stdout.  The daq module updates
+1/s, and this script will poll at a rate of 1/s for the number of
+seconds you specify on the command line.
+
+I've also attached a .csv file containing 10s worth of output.
+
+I've tested the script on my Mac, and it will work on our lab Macs.
+
+Students can run it themselves by opening a Terminal window and
+entering a command like this:
+
+    perl ./ents-262-daq.pl COUNT > ents-data.csv
+
+... where COUNT is the number of seconds to capture data for, and the
+substring "> ents-data.csv" tells the shell to redirect the output to
+the file "ents-data.csv".
+
+----------------------------------------------------------------------
+Data digests in COURSES/ENTS262-00-F13/Common/
+----------------------------------------------------------------------
+
+I will run this script on a server to create daily digest .csv files
+containing 1 days worth of data (60 x 60 x 24 seconds|lines) that will
+be placed in /Courses/ENTS262-00-W13/Common/.  The files will be named
+following this template: "YYYY-MM-DD-data.csv".  For example, the data
+for February 4th will be named "2013-02-04-data.csv".
+
+Excel on my Mac has no trouble loading .csv files containing (60 x 60
+x 24) lines, but if necessary I can break the digest files into
+smaller time spans, like every hour, or every 4 hours.
+
+
+----------------------------------------------------------------------
+Loading the csv file into Excel
+----------------------------------------------------------------------
+
+Once the .csv file exists, you can load it into Excel like so:
+
+    Launch Excel
+
+    Select 'File->Import' from Excel Menu
+       
+    In the 'Import' panel, select the 'csv file' button.
+
+    In the 'Choose a File' panel, select the .csv file to import.
+
+    In the 'Text Import Wizard - Step 1 of 3' panel, select the
+    'Delimited' button, then select 'Finish'.
+
+    In the 'Import Data' panel, select the 'New sheet' button, and
+    then select the 'OK' button.
+
+    The csv file will be imported into the new worksheet.
+
+
