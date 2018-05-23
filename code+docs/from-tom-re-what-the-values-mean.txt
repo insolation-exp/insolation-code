@@ -1,0 +1,20 @@
+Bruce,
+
+Here is more information about which box has what insulation.  getting
+good data now.
+
+Input 0/3 is R3 no window
+
+Input 1/4 is the window
+
+Input 2/5 is R5
+
+Input 6 is outdoor temperature
+
+Input 7 is solar output in watts/meter squared.  Need to multiply the
+value displayed by 910 to get the actual value.  During the day it
+should be hundreds of watts depending on sunlight.
+
+
+Tom
+

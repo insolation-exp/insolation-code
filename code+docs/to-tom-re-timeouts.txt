@@ -1,0 +1,35 @@
+
+Hi Tom,
+
+[Update: I checked the timeout threshold value -- It's set to 1.0s, not
+0.1s as I had earlier stated.  That's a pretty high threshold, so I
+didn't change it...]
+
+A few weeks back I recoded my insolation data gathering script to be
+tolerant of timeout events when talking to the insolation expermiments
+web page.  Before I made that fix, a timeout event caused the script
+to fail and no data would be collected for the rest of the day, which
+was bad.  Now the script captures each timeout event and and logs it
+to a separate file.
+
+Here's a listing of the number of timeout events per day since I
+started logging them:
+
+sol:Digests phasadmin$ wc *.err
+       3 2014-03-05-digest.err
+       7 2014-03-06-digest.err
+       9 2014-03-07-digest.err
+     277 2014-03-08-digest.err
+       3 2014-03-09-digest.err
+       4 2014-03-10-digest.err
+       0 2014-03-11-digest.err
+    8292 2014-03-12-digest.err
+    6089 2014-03-13-digest.err
+      52 2014-03-14-digest.err
+      87 2014-03-15-digest.err
+       1 2014-03-16-digest.err
+       7 2014-03-17-digest.err
+
+As you can see, some days are much worse than others.  I suspect
+there's a bad ethernet connection, that's exacerbated by weather
+somehow.

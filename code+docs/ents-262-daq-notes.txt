@@ -1,0 +1,146 @@
+
+2015-02-18: Punted on recoding insolation experiment summarizing code
+and change the values to reflect new information.
+
+[2015-02-20: Melissa says she and Joel share student handout that
+explains everything.  She will send me a copy.  She's not using the
+data this term, but will in future terms so just keep it running.  No
+need to recode digester, she understands the limitations of the
+digested data and specifically the issue with the 2.96s lamp time and
+possible mis-polling of lamp on times (capturing 2 lamp on events
+counts as 2 seconds in the data, not 3).  She also understood about
+the event density and normalizing the lamp on events against it.  She
+also said given the way the experiment is physically constructed,
+students can't estimate R values and such from the data.]
+
+Tom forwarded emails that give better information about the physical
+experiment.
+
+60 W bulb, on 2.96 seconds per time.  materials used, r values.
+
+*Write up 'what the data means' doc, including the info Tom just forwarded.
+
+I should recode the summarizer to do the following things:
+
+1. Ditch the first and last data lines (the 5 minutes before and after the day)
+
+2. Multiply the outside insolation value 'Sun' by 910
+
+3. Account for the 2.96s "on" time of the lamps in the L* fields.  The
+   current summary could be off if the clocks on the experiment vs the
+   client are offset the wrong way.  3 consecutive polls could report
+   2 consecutive "on" events and 1 "off" event, or 3 "on" events,
+   which is a 2 vs 3 difference.  A better way to summarize is to
+   treat each "on" as belonging to a 2.96s on sequence, so the first
+   on after a series of "offs" would start count for the next 3 seconds,
+   so 2 or 3 on's means 
+   
+4. Use eventdensity in each LN column and show as real not fraction
+
+
+------------------------------------------------------------------
+
+Update 2015-01-20:
+
+The insolation experiments main board died and had to be replaced.  It
+has a new MAC addr (00-0C-C8-02-FD-A7) and I decided to give it a new
+hostname of 'insolation.physics.carleton.edu' and IP Addr of
+137.22.6.220. Various scripts must be updated to reflect this.
+
+The code runs on sol under control of cron via /etc/crontab, which
+runs the script ~phasadmin/ENTS262/Ents262-DAQ-Digest.sh.
+
+Crontab entry:
+
+# 55 23 * * * phasadmin /Users/phasadmin/ENTS262/ENTS262-DAQ-Digest.sh
+
+NOTE: Turns out the raw feed for C1, C2, C3 is in Kelvin/100.0, but
+you can program the data unit to do simple calculations before
+reporting the value.  He had programmed the original unit to convert
+to Celsius, and after I showed him the data from the new unit he
+programmed the new unit to apply the same conversion equations.
+
+
+----
+
+2014-05-05: On 2014-05-10, create zip file with insolation
+*digest-summary.csv files for Joel's class.  First make a copy of the
+Digests directory, then run the redigest.sh script, then rsync it
+over, then zip it.
+
+Created ./Tasks/ENTS262/insolation-digests.zip which contains all the
+*-digest-summary.csv files, and sent it to Joel.
+
+Turned off data gathering by editing sol:/etc/crontab
+
+
+------------------------------------------------------------------
+
+DHCP Registration:
+
+    MacAddr: 00:0C:C8:02:81:F1 (000CC80281F1)
+    Registered in DHCP as ents-262-daq.Physics.Carleton.edu. (137.22.6.132).
+
+    Network: 10/100 Base-T Ethernet Network Setup: static IP address
+    assignment, TCP port selectable
+
+    This ControlByWebTM product supports connection to 10Mbps and
+    100Mbps networks. Although 100Mbps networks are faster, the amount
+    of data transferred to and from this device is very minimal and
+    little if any performance increase will be gained by setting it to
+    100Mbps. There are advantages however, to operate this device at
+    10Mbps. At 10Mbps, less power is required, the unit runs cooler,
+    and the lifetime of the product will be extended.
+
+    IP Address: 137.22.6.132
+    Netmask: 255.255.224.0
+    Broadcast: 137.22.31.255
+    Gateway: ???
+    TCP Port: 80
+    Speed: 10Mbps or 100Mbps (choose one)
+    Mode: Half Duplex | Full Duplex (choose one)
+    
+Filed WHD ticket 37832 to activate Telescope Pedestals 2, 3, 4.
+
+User Manual:
+
+    See: ./analog_manual_v1.1.pdf
+
+
+Script:
+
+    There's a perl script ./perl-daq-temperature/gettemp.pl downloaded
+    from the site that can be modified to work.  It submits the html
+    request to the unit and gets the result and parses it.
+
+    I used it as starting point to create './ents-262-daq.pl.', which
+    goes into an infinite loop where it talks to the analog daq unit's
+    web server every second, gets the state.xml file and emits one
+    line of csv data.
+
+    It's properly called like this (from a *nix command line):
+
+        # perl ./ents-262-daq.pl > ents-data.csv 2>&1
+
+
+
+Loading the .csv file into Excel:
+
+    Launch Excel
+
+    Select 'File->Import' from Excel Menu
+        
+    In the 'Import' panel, select the 'csv file' button.
+
+    In the 'Choose a File' panel, select the .csv file to import.
+
+    In the 'Text Import Wizard - Step 1 of 3' panel, select the
+    'Delimited' button, then select 'Finish'.
+
+    In the 'Import Data' panel, select the 'New sheet' button, and
+    then select the 'OK' button.
+
+    The csv file will be imported into the new worksheet.
+
+
+
