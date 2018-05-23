@@ -1,0 +1,4 @@
+Tue Feb  3 10:05:02 2015 Error: Eval corrupted: Timed Out at ./ENTS262-DAQ-Digest-v2.pl line 123.
+Tue Feb  3 10:11:42 2015 Error: Eval corrupted: Can't call method "send" on an undefined value at ./ENTS262-DAQ-Digest-v2.pl line 144.
+Tue Feb  3 10:11:43 2015 Error: Eval corrupted: Can't call method "send" on an undefined value at ./ENTS262-DAQ-Digest-v2.pl line 144.
+Tue Feb  3 10:11:44 2015 Error: Eval corrupted: Can't call method "send" on an undefined value at ./ENTS262-DAQ-Digest-v2.pl line 144.
